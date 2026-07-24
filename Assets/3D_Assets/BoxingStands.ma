@@ -1,6 +1,6 @@
 //Maya ASCII 2026 scene
 //Name: BoxingStands.ma
-//Last modified: Thu, Jul 23, 2026 06:00:55 PM
+//Last modified: Thu, Jul 23, 2026 06:16:14 PM
 //Codeset: 1252
 requires maya "2026";
 requires -nodeType "aiOptions" -nodeType "aiAOVDriver" -nodeType "aiAOVFilter" -nodeType "aiStandardSurface"
@@ -11,7 +11,7 @@ fileInfo "product" "Maya 2026";
 fileInfo "version" "2026";
 fileInfo "cutIdentifier" "202605050732-e827b950f8";
 fileInfo "osv" "Windows 11 Home v2009 (Build: 26200)";
-fileInfo "UUID" "2D9E468B-47C1-69A2-FC21-10B4B8AD3A69";
+fileInfo "UUID" "8611A313-48EC-4C96-4ACD-3D9D29EDA7B1";
 createNode transform -s -n "persp";
 	rename -uid "BCF2174A-4962-51C9-6BAC-6EBF62B50E50";
 	setAttr ".v" no;
@@ -2580,20 +2580,20 @@ createNode mesh -n "SeatsShape" -p "Seats";
 	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
 	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "5783A699-45A2-EA07-6A53-B7A9DBC34F57";
+	rename -uid "2C1EDC0B-419A-2A58-8634-708CF49F9CA7";
 	setAttr -s 5 ".lnk";
 	setAttr -s 5 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "2BBE5D35-4BA7-F0AA-D049-BD819FAB3855";
+	rename -uid "9FC0218E-4C68-2434-E125-4AA1670F0A51";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "A7A5A61F-4CBE-6D75-0926-F09B5C0F7FFA";
+	rename -uid "1BB74B49-4DE6-358F-850C-E9951A1FEF50";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "B5E67F58-4DA3-162C-F44C-A69A219F4744";
+	rename -uid "6F0870EE-42A3-C5C9-D77E-79AAEC00C1B2";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "C719CB2A-4353-4AF1-935D-0A9B00359401";
 	setAttr ".ufem" -type "stringArray" 0  ;
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "797371FD-4456-25D4-9DF1-4B99DD03A424";
+	rename -uid "65D9C8FD-4018-BE81-E9CE-0BB9F3B6DAAC";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "1F566C7E-4954-1FCA-35E3-9F97B346CA43";
 	setAttr ".g" yes;
@@ -2808,6 +2808,8 @@ select -ne :defaultColorMgtGlobals;
 select -ne :hardwareRenderGlobals;
 	setAttr ".ctrs" 256;
 	setAttr ".btrs" 512;
+select -ne :ikSystem;
+	setAttr -s 4 ".sol";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" "SeatsSG.message" ":defaultLightSet.message";

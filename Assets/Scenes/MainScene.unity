@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 52253099}
   - component: {fileID: 52253098}
-  - component: {fileID: 52253097}
+  - component: {fileID: 52253100}
   m_Layer: 0
   m_Name: GameActionHandler
   m_TagString: Untagged
@@ -137,34 +137,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &52253097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 52253096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d78778ac0100c1e41888c4e28faa0ff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameActionObj: {fileID: 11400000, guid: af09af3f90bc6b449b53ec6b84ed48c5, type: 2}
-  onRaiseEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 553594548}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &52253098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +192,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &52253100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 52253096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c75ab204e0ca7449eaf992fe94312e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  qteToWatch: {fileID: 2020090945}
 --- !u!1 &292860777
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +374,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 5000
-  field of view: 26.2
+  field of view: 23.3
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -415,13 +400,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.101846576, y: -0.0006367402, z: -0.00016393521, w: 0.9947999}
-  m_LocalPosition: {x: 493, y: 33, z: 273}
+  m_LocalRotation: {x: 0.028628904, y: 0.02905352, z: -0.05120127, w: 0.9978551}
+  m_LocalPosition: {x: 437, y: -116, z: 662}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 11.691, y: -0.076, z: -0.027}
+  m_LocalEulerAnglesHint: {x: 3.446, y: 3.161, z: -5.78}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
