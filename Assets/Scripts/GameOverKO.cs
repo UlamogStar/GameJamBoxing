@@ -52,10 +52,5 @@ public class GameOverKO : MonoBehaviour
         hasEnded = true;
         Debug.Log("Game over");
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-#endif
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ public class Quick_Time_Event : MonoBehaviour
     public float maxTime = 5f;
     public float drainSpeed = 1f;
     public float timeAddedPerPress = 0.5f;
+    [Header("Set Settings")]
+    public int pressesPerSet = 5;
 
     [Header("Button Switching")]
     public int pressesNeededToSwitch = 5;
@@ -23,7 +26,16 @@ public class Quick_Time_Event : MonoBehaviour
 
     private float currentTime;
     private int pressCount;
+    private int switchPressCount;
     private bool qteActive;
+
+    public event Action OnFail;
+    public event Action OnStart;
+    public event Action OnSetComplete;
+
+    [Header("Tracking")]
+    public int setsCompleted; // number of sets (successful press-goals) completed
+    public float totalTimeSurvived; // total time accumulated from completed sets and failures
 
     void Start()
     {
@@ -74,26 +86,31 @@ public class Quick_Time_Event : MonoBehaviour
 
 
         pressCount++;
-
+        switchPressCount++;
 
         // Change button after enough presses
-        if (pressCount >= pressesNeededToSwitch)
+        if (switchPressCount >= pressesNeededToSwitch)
         {
             ChangeAction();
+        }
+
+        // Set completion
+        if (pressCount >= pressesPerSet)
+        {
+            CompleteSet();
         }
     }
 
 
     void ChangeAction()
     {
-        pressCount = 0;
-
+        switchPressCount = 0;
 
         InputActionReference newAction;
 
         do
         {
-            newAction = actions[Random.Range(0, actions.Length)];
+            newAction = actions[UnityEngine.Random.Range(0, actions.Length)];
 
         } while (newAction == currentAction && actions.Length > 1);
 
@@ -114,11 +131,13 @@ public class Quick_Time_Event : MonoBehaviour
         }
 
 
-        currentAction = actions[Random.Range(0, actions.Length)];
+        currentAction = actions[UnityEngine.Random.Range(0, actions.Length)];
 
         currentTime = maxTime;
         pressCount = 0;
         qteActive = true;
+
+        OnStart?.Invoke();
 
 
         if (timerSlider != null)
@@ -154,18 +173,23 @@ public class Quick_Time_Event : MonoBehaviour
         if (promptText != null)
             promptText.text = "Failed!";
 
+        // accumulate time survived on fail
+        float timeSurvivedOnFail = maxTime - currentTime;
+        totalTimeSurvived += timeSurvivedOnFail;
+
+        OnFail?.Invoke();
         Invoke(nameof(HideUI), 1f);
     }
 
 
-    void SuccessQTE()
+    void CompleteSet()
     {
-        qteActive = false;
+        pressCount = 0;
 
-        if (promptText != null)
-            promptText.text = "Success!";
-
-        Invoke(nameof(HideUI), 1f);
+        float timeSurvived = maxTime - currentTime;
+        totalTimeSurvived += timeSurvived;
+        setsCompleted++;
+        OnSetComplete?.Invoke();
     }
 
 
