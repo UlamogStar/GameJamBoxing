@@ -33,6 +33,7 @@ public class Quick_Time_Event : MonoBehaviour
     private int pressCount;
     private int switchPressCount;
     private bool qteActive;
+    private bool isPaused;
 
     public event Action OnFail;
     public event Action OnStart;
@@ -58,7 +59,7 @@ public class Quick_Time_Event : MonoBehaviour
 
     void Update()
     {
-        if (!qteActive)
+        if (!qteActive || isPaused)
             return;
 
 
@@ -78,6 +79,13 @@ public class Quick_Time_Event : MonoBehaviour
         {
             FailQTE();
         }
+    }
+
+    // Used by cutscenes and other pause sequences. Time.timeScale alone does
+    // not stop Update or Input System events, so gameplay must be gated here.
+    public void SetPaused(bool paused)
+    {
+        isPaused = paused;
     }
 
     bool TryHandleInputPress()
