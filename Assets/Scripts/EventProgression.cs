@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+//System to track the number of QTE sets completed and adjust difficulty accordingly. 
 
 public class EventProgression : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class EventProgression : MonoBehaviour
     public TextMeshProUGUI setsText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI pressesText;
-    public TextMeshProUGUI timeText;
 
 
     void OnEnable()
@@ -83,8 +83,6 @@ public class EventProgression : MonoBehaviour
         if (pressesText != null)
             pressesText.text = $"Presses to complete: {qte.pressesPerSet}";
 
-        if (timeText != null)
-            timeText.text = $"Time survived: {qte.totalTimeSurvived:F1}s";
     }
 }
 

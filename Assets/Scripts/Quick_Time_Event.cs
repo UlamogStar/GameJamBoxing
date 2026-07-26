@@ -18,10 +18,15 @@ public class Quick_Time_Event : MonoBehaviour
     [Header("Button Switching")]
     public int pressesNeededToSwitch = 5;
 
+    [Header("Penalty Settings")]
+    [Range(0f, 1f)]
+    public float incorrectPressPenaltyPercent = 0.2f;
+
     [Header("UI")]
     public TextMeshProUGUI promptText;
     public Slider timerSlider;
-
+    public GameObject[] buttonObjects;
+    
     private InputActionReference currentAction;
 
     private float currentTime;
@@ -41,6 +46,8 @@ public class Quick_Time_Event : MonoBehaviour
     {
         if (promptText != null)
             promptText.gameObject.SetActive(false);
+
+        HideButtonObjects();
 
         if (timerSlider != null)
             timerSlider.gameObject.SetActive(false);
@@ -63,12 +70,8 @@ public class Quick_Time_Event : MonoBehaviour
             timerSlider.value = currentTime;
 
 
-        // Player pressed correct button
-        if (currentAction.action.triggered)
-        {
-            ButtonPressed();
-        }
-
+        // Player pressed a button
+        TryHandleInputPress();
 
         // Timer empty
         if (currentTime <= 0)
@@ -77,6 +80,40 @@ public class Quick_Time_Event : MonoBehaviour
         }
     }
 
+    bool TryHandleInputPress()
+    {
+        if (actions == null || actions.Length == 0)
+            return false;
+
+        for (int i = 0; i < actions.Length; i++)
+        {
+            InputActionReference actionRef = actions[i];
+
+            if (actionRef == null || actionRef.action == null)
+                continue;
+
+            if (!actionRef.action.triggered)
+                continue;
+
+            if (actionRef == currentAction)
+            {
+                ButtonPressed();
+                return true;
+            }
+
+            ApplyIncorrectPressPenalty();
+            return true;
+        }
+
+        return false;
+    }
+
+    void ApplyIncorrectPressPenalty()
+    {
+        float penalty = maxTime * Mathf.Clamp01(incorrectPressPenaltyPercent);
+        currentTime -= penalty;
+        currentTime = Mathf.Clamp(currentTime, 0f, maxTime);
+    }
 
     void ButtonPressed()
     {
@@ -151,17 +188,48 @@ public class Quick_Time_Event : MonoBehaviour
         if (promptText != null)
             promptText.gameObject.SetActive(true);
 
-
         UpdatePrompt();
     }
 
 
     void UpdatePrompt()
     {
+        HideButtonObjects();
+
+        if (currentAction == null)
+            return;
+
+        int actionIndex = Array.IndexOf(actions, currentAction);
+
+        if (actionIndex >= 0 && buttonObjects != null && actionIndex < buttonObjects.Length && buttonObjects[actionIndex] != null)
+        {
+            buttonObjects[actionIndex].SetActive(true);
+
+            if (promptText != null)
+            {
+                promptText.text = string.Empty;
+                promptText.gameObject.SetActive(false);
+            }
+
+            return;
+        }
+
         if (promptText != null)
         {
-            promptText.text =
-                $"Mash {currentAction.action.GetBindingDisplayString()}!";
+            promptText.text = $"Mash {currentAction.action.GetBindingDisplayString()}!";
+            promptText.gameObject.SetActive(true);
+        }
+    }
+
+    void HideButtonObjects()
+    {
+        if (buttonObjects == null)
+            return;
+
+        foreach (GameObject buttonObject in buttonObjects)
+        {
+            if (buttonObject != null)
+                buttonObject.SetActive(false);
         }
     }
 
@@ -171,7 +239,12 @@ public class Quick_Time_Event : MonoBehaviour
         qteActive = false;
 
         if (promptText != null)
+        {
             promptText.text = "Failed!";
+            promptText.gameObject.SetActive(true);
+        }
+
+        HideButtonObjects();
 
         // accumulate time survived on fail
         float timeSurvivedOnFail = maxTime - currentTime;
@@ -197,6 +270,8 @@ public class Quick_Time_Event : MonoBehaviour
     {
         if (promptText != null)
             promptText.gameObject.SetActive(false);
+
+        HideButtonObjects();
 
         if (timerSlider != null)
             timerSlider.gameObject.SetActive(false);

@@ -1,11 +1,15 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+//Called when the slider hits zero so the game will "end" if the player fails.
 public class GameOverKO : MonoBehaviour
 {
     [Header("QTE")]
     [SerializeField] private Quick_Time_Event qteToWatch;
+
+    [Header("Slider")]
+    [SerializeField] private Slider progressSlider;
 
     private bool hasEnded;
     private bool wasQteActive = true;
@@ -52,5 +56,10 @@ public class GameOverKO : MonoBehaviour
         hasEnded = true;
         Debug.Log("Game over");
 
+    }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
